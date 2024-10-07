@@ -4414,3 +4414,33 @@ th.ant-table-cell.booking-column {
   color: red;
   font-size: 12px;
 }
+
+.login-prompt {
+  background-color: #f9f9f9; /* Light background for contrast */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Inner spacing */
+  text-align: center; /* Center text */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  margin-top: 20px; /* Space above the prompt */
+}
+
+.login-prompt h2 {
+  color: #333; /* Darker text for readability */
+  margin-bottom: 15px; /* Space below the heading */
+}
+
+.login-button {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}

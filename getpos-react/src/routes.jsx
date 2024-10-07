@@ -13,9 +13,12 @@ import Location from "./components/getLocation"
 import { OpenShiftProvider } from './components/OpenShiftContext';
 import Barcode from './components/barcode'
 import { ThemeSettingsProvider } from './components/ThemeSettingContext';
+import PrivateRoute from './components/PrivateRoute';
 
 const AppRoutes = () => {
   return (
+    
+
     <ThemeSettingsProvider>
     <OpenShiftProvider>
 
@@ -23,21 +26,52 @@ const AppRoutes = () => {
       {/* <Router > */}
           
         <Routes >
-        <Route path="/" element={<LoginPage />} />
-            <Route path="/Barcode" element={<Barcode />} />
-            <Route path="/location" element={<Location />} />
-            <Route path="/category" element={<MainScreen />} />
-            <Route path="/openshift" element={<OpenShiftScreen />} />
-            <Route path="/closeshift" element={<CloseShiftScreen />} />
-            <Route path="/main" element={<HomePage />} />
-            <Route path="/order" element={<OrderPage />} />
-            <Route path="/customer" element={<CustomerPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+     
+             <Route path="/" element={<LoginPage />} />
             <Route path="/login" element={<LoginPage />} />
+
+            {/* Private Routes with authentication and data checks */}
+            <Route
+              path="/Barcode"
+              element={<PrivateRoute element={Barcode} requiredKeys={['user']} />}
+            />
+            <Route
+              path="/location"
+              element={<PrivateRoute element={Location} requiredKeys={['user']} />}
+            />
+            <Route
+              path="/category"
+              element={<PrivateRoute element={MainScreen} requiredKeys={['openShiftData', 'paymentBalances','user','costCenter']} />}
+            />
+            <Route
+              path="/openshift"
+              element={<PrivateRoute element={OpenShiftScreen} requiredKeys={['costCenter','user']} />}
+            />
+            <Route
+              path="/closeshift"
+              element={<PrivateRoute element={CloseShiftScreen} requiredKeys={['user','openShiftData', 'paymentBalances','costCenter']} />}
+            />
+            <Route
+              path="/main"
+              element={<PrivateRoute element={HomePage} requiredKeys={['user','openShiftData', 'paymentBalances','costCenter']} />}
+            />
+            <Route
+              path="/order"
+              element={<PrivateRoute element={OrderPage} requiredKeys={['user','openShiftData', 'paymentBalances','costCenter']} />}
+            />
+            <Route
+              path="/customer"
+              element={<PrivateRoute element={CustomerPage} requiredKeys={['user','openShiftData', 'paymentBalances','costCenter']} />}
+            />
+            <Route
+              path="/profile"
+              element={<PrivateRoute element={ProfilePage} requiredKeys={['user','openShiftData', 'paymentBalances','costCenter']} />}
+            />
         </Routes>
       </Router>
     </OpenShiftProvider>
     </ThemeSettingsProvider>
+ 
   );
 };
 

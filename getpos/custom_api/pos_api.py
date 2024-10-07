@@ -1,6 +1,6 @@
 import frappe,json
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist(methods=["GET"])
 def get_opening_data():
     frappe.set_user("Administrator")
     data = {}

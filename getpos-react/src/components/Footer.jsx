@@ -5,7 +5,7 @@ import Order from "../assets/images/icon-order.svg";
 import Customer from "../assets/images/icon-customer.svg";
 import Profile from "../assets/images/icon-profile.svg";
 import Logout from "../assets/images/logout.png";
-import BookingIcon from "../assets/images/Booking.png"; // Add a booking icon
+
 
 const Footer = () => {
   return (
@@ -63,16 +63,7 @@ const Footer = () => {
               <span className="footer-label">Logout</span>
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink
-              to="/booking"
-              className="footer-nav-item"
-              activeClassName="active"
-            >
-              <img src={BookingIcon} alt="Booking" />
-              <span className="footer-label">Booking</span>
-            </NavLink>
-          </li> */}
+          
         </ul>
         <></>
       </nav>

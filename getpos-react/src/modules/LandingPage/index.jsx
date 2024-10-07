@@ -18,10 +18,19 @@ export const login = async (email, password) => {
     throw error;
   }
 };
+export const getUser = async () => {
+  try {
+    const response = await axiosInstance.get(`${APIs.get_user}`);  
+      return response.data;  
+  } catch (error) {
+    // Handle errors, such as network issues or server errors
+    throw error;
+  }
+};
 
 export const fetchOpeningData = async () => {
   try {
-    const response = await axiosInstance.post(APIs.getOpeningData);
+    const response = await axiosInstance.get(APIs.getOpeningData);
     console.log("Opening data:", response.data.message);
     return response.data.message;
   } catch (error) {
@@ -171,8 +180,9 @@ export const fetchSalesOrderList = async (hubManagerEmail, pageNo) => {
       `${APIs.getSalesOrderList}?hub_manager=${hubManagerEmail}&page_no=${pageNo}`
     );
     if (response.data && response.data.message.success_key === 1) {
-      console.log("Sales Order Data:", response.data.message.order_list);
-      return response.data.message.order_list;
+      console.log("Sales Order Data:", response.data.message);
+      return response.data.message;
+      // order_list
     } else {
       throw new Error("Invalid API response");
     }
