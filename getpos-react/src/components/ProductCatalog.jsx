@@ -5,7 +5,7 @@ import Pagination from "./pagination"; // Import the Pagination component
 const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(10);
-
+  
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -54,6 +54,7 @@ const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
   
   return (
     <div className="product-catalog">
+      {console.log("PtotalPage",totalPages)}
       <h2>{categoryName}</h2>
       <div className="product-list">
         {currentProducts.length > 0 ? (

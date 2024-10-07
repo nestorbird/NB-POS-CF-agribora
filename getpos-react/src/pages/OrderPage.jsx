@@ -26,11 +26,13 @@ const OrderPage = ({ hubManagerEmail }) => {
   const { cartItems, setCartItems } = useContext(CartContext);
   const [PageCount, setPageCount] = useState(1);
   const [Data, setData] = useState([]);
+  const [details,setDetails]=useState(null)
   const GetSalesOrderList = async (PageCount) => {
     try {
       const { email } = JSON.parse(localStorage.getItem("user"));
       const orderList = await fetchSalesOrderList(email, PageCount);
-      setData(orderList);
+      setData(orderList.order_list);
+      setDetails(orderList)
       setLoading(false);
     } catch (error) {
       console.log("Error occur", error);
@@ -226,6 +228,7 @@ const OrderPage = ({ hubManagerEmail }) => {
   // console.log("Data",Data);
   return (
     <Layout>
+      {console.log("details",details)}
       <div className="main-cont order-page">
         <div className="heading-cont">
           <h1>Orders</h1>
@@ -329,7 +332,7 @@ const OrderPage = ({ hubManagerEmail }) => {
               <button
                 className="next"
                 onClick={handleNextBtn}
-                disabled={Data?.length === 0||Math.ceil(Data[0].total_order/Data[0].items_perpage)===PageCount}
+                disabled={Data?.length === 0||Math.ceil(details.number_of_orders/details.items_perpage)===PageCount}
               >
                 Next
               </button>

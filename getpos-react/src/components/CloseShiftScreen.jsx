@@ -4,11 +4,11 @@ import { getCloseShiftDetails, getClosingShift } from "../modules/LandingPage";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../common/CartContext";
 import { useThemeSettings } from "./ThemeSettingContext";
-
+import { useFrappeAuth } from "frappe-react-sdk";
 const CloseShiftScreen = () => {
+  const { logout } = useFrappeAuth();
   const [openShift, setOpenShift] = useState({});
   const [expectedCashBalance, setExpectedCashBalance] = useState("");
-  // const [expectedDigitalBalance, setExpectedDigitalBalance] = useState("");
   const [cashBalance, setCashBalance] = useState("");
   const [digitalBalance, setDigitalBalance] = useState("");
   const [showCashInput, setShowCashInput] = useState(false);
@@ -77,15 +77,9 @@ const CloseShiftScreen = () => {
         (cashOpeningDetail ? cashOpeningDetail.amount : 0) +
         totalSalesOrderAmount;
 
-      // const expectedCreditCardAmount =
-      //   (creditCardOpeningDetail ? creditCardOpeningDetail.amount : 0) + totalSalesOrderAmount;
-
       setExpectedCashBalance(expectedCashAmount.toFixed(2));
-      // setExpectedDigitalBalance(expectedCreditCardAmount.toFixed(2));
-
       setCashBalance("");
       setDigitalBalance("");
-
       setShowCashInput(!!cashOpeningDetail);
       setShowDigitalInput(!!creditCardOpeningDetail);
     } catch (error) {
@@ -110,7 +104,7 @@ const CloseShiftScreen = () => {
         console.error("No opening shift response found in local storage.");
         setTimeout(() => {
           localStorage.clear();
-          navigate("/");
+          navigate("/login");
           setCartItems([]);
         }, 1000);
         return;
@@ -140,28 +134,12 @@ const CloseShiftScreen = () => {
       const postingDate = new Date().toISOString();
       const periodEndDate = new Date().toISOString();
 
-      // Log expected and entered balances for debugging
-      console.log(
-        "Expected Cash Balance:",
-        expectedCashBalance,
-        typeof expectedCashBalance
-      );
       console.log("Entered Cash Balance:", cashBalance, typeof cashBalance);
 
-      // console.log("Expected Digital Balance:", expectedDigitalBalance, typeof expectedDigitalBalance);
-      console.log(
-        "Entered Digital Balance:",
-        digitalBalance,
-        typeof digitalBalance
-      );
-
-      // Validate cash and digital balances
-      if (
-        parseFloat(cashBalance) !== parseFloat(expectedCashBalance)
-        // parseFloat(digitalBalance) !== parseFloat(expectedDigitalBalance)
-      ) {
+      // Validate cash balance
+      if (parseFloat(cashBalance) !== parseFloat(expectedCashBalance)) {
         alert(
-          "The entered balance do not match the expected amount. Please enter the exact amount."
+          "The entered balance does not match the expected amount. Please enter the exact amount."
         );
         return;
       }
@@ -174,16 +152,6 @@ const CloseShiftScreen = () => {
           opening_amount: parseFloat(expectedCashBalance) || 0.0,
           closing_amount: parseFloat(cashBalance) || 0.0,
           expected_amount: parseFloat(expectedCashBalance) || 0.0,
-          difference: 0.0,
-        });
-      }
-
-      if (showDigitalInput) {
-        paymentReconciliation.push({
-          mode_of_payment: "Credit Card",
-          // opening_amount: parseFloat(expectedDigitalBalance) || 0.0,
-          closing_amount: parseFloat(digitalBalance) || 0.0,
-          // expected_amount: parseFloat(expectedDigitalBalance) || 0.0,
           difference: 0.0,
         });
       }
@@ -205,12 +173,13 @@ const CloseShiftScreen = () => {
 
       if (response) {
         console.log("Shift closed successfully");
-        navigate("/getpos-react/closeshift");
+        await logout();
+        navigate("/closeshift");
         setTimeout(() => {
-          navigate("/login");
           setCartItems([]);
+          localStorage.clear();
+          navigate("/login");
         }, 1000);
-        localStorage.clear();
       } else {
         console.error("Failed to close shift");
       }
@@ -252,24 +221,6 @@ const CloseShiftScreen = () => {
     }
   };
 
-  // const handleDigitalBalanceChange = (e) => {
-  //   const value = parseFloat(e.target.value);
-  //   const expectedBalance = parseFloat(expectedDigitalBalance); // Ensure it's a number
-  //   if (value > expectedBalance) {
-  //     alert(
-  //       `The entered amount exceeds the expected credit balance of $${expectedBalance.toFixed(
-  //         2
-  //       )}. Please enter a valid amount.`
-  //     );
-  //     setDigitalBalance(expectedBalance.toString());
-  //   } else {
-  //     setDigitalBalance(e.target.value);
-  //   }
-  // };
-
-  console.log(expectedCashBalance, "pppppp");
-  console.log(cashBalance);
-
   return (
     <Layout>
       <div className="login-screen">
@@ -291,21 +242,6 @@ const CloseShiftScreen = () => {
               </span>
             </div>
           )}
-          {/* {showDigitalInput && (
-            <div className="form-group">
-              <input
-                id="digital-balance"
-                type="number"
-                placeholder="Enter Closing Digital Balance"
-                value={digitalBalance}
-                onChange={handleDigitalBalanceChange}
-              />
-              <span>
-                System Closing Digital Balance: $
-                {parseFloat(expectedDigitalBalance).toFixed(2)}
-              </span>
-            </div>
-          )} */}
           <div className="form-group">
             <button
               className="button-close-shift"

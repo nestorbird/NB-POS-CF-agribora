@@ -105,6 +105,21 @@ const Cart = ({ fetchData, onReservationClick }) => {
     }
   }, []);
 
+  function getFormattedTimestamp() {
+    const now = new Date();
+    
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+    const microseconds = '000'; // JavaScript only supports milliseconds, so microseconds can be set manually
+  
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}${microseconds}`;
+  }
+
   const handleCloseForm = () => {
     console.log("handleCloseForm")
     setSearchTerm("")
@@ -584,12 +599,14 @@ const Cart = ({ fetchData, onReservationClick }) => {
         name: selectedCustomer.name,
       },
       status: "cartItems",
-      creation: new Date().toLocaleString(),
+      // creation: new Date().toLocaleString(),
+      creation:getFormattedTimestamp(),
       contact_name: selectedCustomer.customer_name || "Guest",
       contact_mobile: selectedCustomer.mobile_no || "N/A",
     };
 
     parkedOrders.push(newParkedOrder);
+    console.log("parkedOrders",parkedOrders)
     localStorage.setItem("parkedOrders", JSON.stringify(parkedOrders));
     localStorage.removeItem("couponDiscount");
     localStorage.removeItem("promoCode");

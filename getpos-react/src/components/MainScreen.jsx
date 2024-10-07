@@ -13,10 +13,7 @@ import { ShoppingCartOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import useIsSmallScreen from "../hooks/useIsSmallScreen";
 import { CartContext } from "../common/CartContext";
 import ProductPopup from "./ProductPopup";
-import ReservationPopup from "./ReservationPopup";
-import DynamicTableAvailabilityPopup from "./TableAvailability";
-import BookingSummaryPopup from "./BookingSummary";
-
+import {useNavigate} from "react-router-dom"
 const MainScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [popupProduct, setPopupProduct] = useState(null);
@@ -26,12 +23,8 @@ const MainScreen = () => {
   const [loading, setLoading] = useState(true);
   const [isCartVisible, setIsCartVisible] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [isReservaionPopupVisible, setIsReservaionPopupVisible] =
-    useState(false);
-  const [isTableAvailabilityPopupVisible, setIsTableAvailabilityPopupVisible] =
-    useState(false);
-  const [isBookingSummaryPopupVisible, setIsBookingSummaryPopupVisible] =
-    useState(false);
+   
+
   const [searchQuery, setSearchQuery] = useState("");
   const [barcode, setBarcode] = useState("");
   const [bookingData, setBookingData] = useState({});
@@ -44,6 +37,7 @@ const MainScreen = () => {
   const searchInputRef = useRef(null);
   const scanTimeout = useRef(null);
   const [NotFound, setNotFound] = useState(false);
+
 
   const getSelectedCustomer = () => {
     const customer = localStorage.getItem("selectedCustomer");
@@ -269,56 +263,11 @@ const MainScreen = () => {
             onClose={() => setPopupProduct(null)}
           />
         )}
-        {isReservaionPopupVisible && (
-          <ReservationPopup
-            visible={isReservaionPopupVisible}
-            onSubmit={(
-              selectedDate,
-              selectedTime,
-              numGuests,
-              specialRequest
-            ) => {
-              setIsReservaionPopupVisible(false);
-              setIsTableAvailabilityPopupVisible(true);
-              setBookingData({
-                selectedDate,
-                selectedTime,
-                numGuests,
-                specialRequest,
-              });
-              console.log("1st submitted", bookingData);
-            }}
-            onClose={() => {
-              setIsReservaionPopupVisible(false);
-            }}
-          />
-        )}
-        {isTableAvailabilityPopupVisible && (
-          <DynamicTableAvailabilityPopup
-            visible={isTableAvailabilityPopupVisible}
-            onClose={() => {
-              setIsTableAvailabilityPopupVisible(false);
-            }}
-            onSubmit={(SelectedTables) => {
-              setIsTableAvailabilityPopupVisible(false);
-              setIsBookingSummaryPopupVisible(true);
-              setBookingData((prevData) => ({
-                ...prevData,
-                tableNumbers: SelectedTables,
-              }));
-              console.log("2nd submitted");
-            }}
-          />
-        )}
-        {isBookingSummaryPopupVisible && (
-          <BookingSummaryPopup
-            bookingData={bookingData}
-            visible={isBookingSummaryPopupVisible}
-            onClose={() => {
-              setIsBookingSummaryPopupVisible(false);
-            }}
-          />
-        )}
+     
+        
+      
+          
+      
       </div>
     </>
   );

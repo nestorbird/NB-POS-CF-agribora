@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const Pagination = ({ totalItems, currentPage, onPageChange, itemsPerPage }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+const Pagination = ({ totalItems, currentPage, onPageChange, itemsPerPage ,totalPages}) => {
+  const totalPage = Math.ceil(totalItems / itemsPerPage);
   const [currPage, setCurrPage] = useState(currentPage);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Pagination = ({ totalItems, currentPage, onPageChange, itemsPerPage }) => 
   };
 
   const handlePagesIncrement = () => {
-    if (currPage === totalPages) return;
+    if (currPage === totalPage) return;
     const newPage = currPage + 1;
     setCurrPage(newPage);
     onPageChange(newPage);
@@ -25,7 +25,6 @@ const Pagination = ({ totalItems, currentPage, onPageChange, itemsPerPage }) => 
 
   return (
     <>
-    {console.log("totalPages",totalPages)}
     <div className="pagination">
       <button
         className="prev"
@@ -38,7 +37,7 @@ const Pagination = ({ totalItems, currentPage, onPageChange, itemsPerPage }) => 
       <button
         className="next"
         onClick={handlePagesIncrement}
-        disabled={currPage === totalPages || totalPages===0}
+        disabled={currPage === totalPage || totalPage===0 || totalPages===currPage}
       >
         Next
       </button>

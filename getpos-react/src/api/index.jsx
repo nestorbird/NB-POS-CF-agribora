@@ -23,6 +23,7 @@ const APIs = {
   validateGiftCode:'api/method/getpos.getpos.api.validate_gift_card',
   sendMail:"api/method/getpos.getpos.api.resend_sales_invoice_email",
   getShiftDetails:"/api/method/getpos.getpos.doctype.pos_closing_shift.pos_closing_shift.get_shift_details",
+  get_user: '/api/method/getpos.getpos.api.get_user', 
   
 };
 

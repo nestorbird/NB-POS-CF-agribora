@@ -53,7 +53,10 @@ fixtures = [
 ]
 # include js, css files in header of desk.html
 # app_include_css = "/assets/getpos/css/nbpos.css"
-app_include_js = "/assets/getpos/js/nbpos.js"
+app_include_js = [
+    "/assets/getpos/js/nbpos.js",  
+   
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/nbpos/css/nbpos.css"
@@ -207,7 +210,8 @@ scheduler_events = {
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "nbpos.event.get_events"
+# 	# "frappe.desk.doctype.event.event.get_events": "nbpos.event.get_events"
+# 	"frappe.auth.LoginManager.logout":"getpos.customizations.custom_login_manager.CustomLoginManager.logout"
 # }
 #
 # each overriding function accepts a `data` argument;
