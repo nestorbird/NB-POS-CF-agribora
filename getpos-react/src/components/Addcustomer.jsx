@@ -12,7 +12,6 @@ const AddCustomerForm = ({ searchTerm, onAddCustomer, handleCloseForm, loadCusto
   useEffect(() => {
     const trimmedSearchTerm = searchTerm.replace(/\s+/g, "").trim(); // Remove all spaces before checking
     const isNumeric = /^\d+$/.test(trimmedSearchTerm); // Check if the term is numeric
-     console.log("trimmedSearchTerm",trimmedSearchTerm)
     if (isNumeric) {
       setCustomerNumber(trimmedSearchTerm); // Set the number after removing spaces
       setCustomerName("");

@@ -108,7 +108,7 @@ const MainScreen = () => {
       if (e.keyCode === 13 && barcode.length > 3 && isScan) {
         clearTimeout(scanTimeout.current);
         scanTimeout.current = setTimeout(() => {
-          console.log("Scanned Barcode:", barcode);
+          // console.log("Scanned Barcode:", barcode);
           handleScan(barcode);
           setBarcode("");
         }, 500);
@@ -144,7 +144,7 @@ const MainScreen = () => {
     try {
       const res = await getItemByScan(sanitizedBarcode, costCenter);
       if (res.status === 200) {
-        console.log(res.data.message, "check");
+        // console.log(res.data.message, "check");
         const items = res.data.message[0].items;
 
         items.forEach((item) => {

@@ -26,12 +26,12 @@ const ReservationPopup = ({ visible, onClose, onSubmit }) => {
       message.error("Please fill in the date, time, and number of guests.");
       return;
     }
-    console.log({
-      selectedDate: selectedDate.format("YYYY-MM-DD"),
-      selectedTime,
-      numGuests,
-      specialRequest,
-    });
+    // console.log({
+    //   selectedDate: selectedDate.format("YYYY-MM-DD"),
+    //   selectedTime,
+    //   numGuests,
+    //   specialRequest,
+    // });
     onSubmit(selectedDate, selectedTime, numGuests, specialRequest);
   };
 

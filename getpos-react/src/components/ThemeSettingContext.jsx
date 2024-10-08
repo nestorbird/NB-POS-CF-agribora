@@ -14,7 +14,7 @@ export const ThemeSettingsProvider = ({ children }) => {
     try {
       const res = await getGuestCustomer();
       if (res.status === 200) {
-        console.log(res.data.message.data);
+        // console.log(res.data.message.data);
         setThemeSettings(res.data.message.data);
       } else {
         console.log('Error in getting the Guest Customer');

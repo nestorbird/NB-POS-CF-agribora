@@ -30,7 +30,7 @@ const OpenShiftScreen = () => {
       const res = await getGuestCustomer();
       if (res.status === 200) {
         setCompany(res.data.message.data.default_company);
-        console.log("Guest customer", company);
+        // console.log("Guest customer", company);
       } else {
         console.log("Error in getting the Guest Customer");
       }
@@ -38,6 +38,12 @@ const OpenShiftScreen = () => {
       console.log("Error in fetching guest customer:", error.message);
     }
   };
+  useEffect(() => {
+    if (window.csrf_token === 'None') {
+      console.warn("CSRF token is 'None'. Reloading the page to refresh the token.");
+      window.location.reload();
+    }
+  }, []);
 
   useEffect(() => {
     if (!loginResponse) {
@@ -77,7 +83,7 @@ const OpenShiftScreen = () => {
 
     try {
       const openingShiftResponse = await getOpeningShift(openingShiftData);
-      console.log("POS opening shift created:", openingShiftResponse);
+      // console.log("POS opening shift created:", openingShiftResponse);
 
       localStorage.setItem(
         "openingShiftResponse",
@@ -115,7 +121,7 @@ const OpenShiftScreen = () => {
     }
 
     // No errors, proceed with login
-    console.log("Logging in...");
+    // console.log("Logging in...");
     localStorage.setItem("openShiftData", JSON.stringify(openShiftData));
     localStorage.setItem("paymentBalances", JSON.stringify(paymentBalances));
 
@@ -127,7 +133,7 @@ const OpenShiftScreen = () => {
   const storedResponse = localStorage.getItem("openingShiftResponse");
   const parsedResponse = storedResponse ? JSON.parse(storedResponse) : null;
 
-  console.log("Stored Response:", parsedResponse);
+  // console.log("Stored Response:", parsedResponse);
 
   const handleProfileChange = (event) => {
     const value = event.target.value;

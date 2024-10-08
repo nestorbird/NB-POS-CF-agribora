@@ -121,7 +121,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
   }
 
   const handleCloseForm = () => {
-    console.log("handleCloseForm")
+    // console.log("handleCloseForm")
     setSearchTerm("")
     setShowAddCustomerForm(false); // Hide the formAddCustomerForm
   
@@ -260,7 +260,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
       taxEntry.custom_tax_percentage.replace("%", "")
     );
     const itemTotal = item.product_price * item.quantity;
-    console.log("quantity",item.quantity)
+    // console.log("quantity",item.quantity)
     return (itemTotal * taxPercentage) / 100;
   };
 
@@ -606,7 +606,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
     };
 
     parkedOrders.push(newParkedOrder);
-    console.log("parkedOrders",parkedOrders)
+    // console.log("parkedOrders",parkedOrders)
     localStorage.setItem("parkedOrders", JSON.stringify(parkedOrders));
     localStorage.removeItem("couponDiscount");
     localStorage.removeItem("promoCode");
@@ -730,7 +730,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
 
     try {
       const res = await createSalesOrder(orderDetails);
-      console.log(res);
+      // console.log(res);
       if (res && res.message && res.message.success_key === 1) {
         Modal.success({
           title: "Congratulations!",
@@ -827,7 +827,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
           res.data.message.data.edit_price_discount_in_percentage
         );
         setGuestCustomer(guestCustomer);
-        console.log("Guest customer", guestCustomer);
+        // console.log("Guest customer", guestCustomer);
       } else {
         console.log("Error in getting the Guest Customer");
       }
@@ -1133,7 +1133,6 @@ const Cart = ({ fetchData, onReservationClick }) => {
 
   return (
     <div className="cartItems">
-      {console.log(cartItems)}
       <div>
         <ul className="tab-header">
          

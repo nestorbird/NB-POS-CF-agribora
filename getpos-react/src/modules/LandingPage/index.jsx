@@ -31,7 +31,7 @@ export const getUser = async () => {
 export const fetchOpeningData = async () => {
   try {
     const response = await axiosInstance.get(APIs.getOpeningData);
-    console.log("Opening data:", response.data.message);
+    // console.log("Opening data:", response.data.message);
     return response.data.message;
   } catch (error) {
     console.error("Error fetching opening data:", error);
@@ -45,7 +45,7 @@ export const getOpeningShift = async (openingShiftData) => {
       APIs.createOpeningShift,
       openingShiftData
     );
-    console.log("POS opening shift created:", response.data);
+    // console.log("POS opening shift created:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error creating POS opening shift:", error);
@@ -67,7 +67,7 @@ export const getClosingShift = async (closingShiftData) => {
     };
 
     const response = await axiosInstance.post(APIs.createClosingShift, payload);
-    console.log("POS Shift Closed Successfully:", response.data);
+    // console.log("POS Shift Closed Successfully:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error Closing the shift:", error);
@@ -76,11 +76,11 @@ export const getClosingShift = async (closingShiftData) => {
 };
 
 export const fetchCategoriesAndProducts = async (costCenter) => {
-  console.log(costCenter,"Checking")
+  // console.log(costCenter,"Checking")
   try {
     const res = await axiosInstance.get(`${APIs.getCategoriesAndProducts}?cost_center=${costCenter}`);
     if (res.data && res.data.message) {
-      console.log("API Data:", res.data.message);
+      // console.log("API Data:", res.data.message);
       return res.data.message;
     } else {
       throw new Error("Invalid API response");
@@ -131,7 +131,7 @@ export const searchCustomers = async (mobileNo) => {
       `${APIs.getCustomer}?mobile_no=${mobileNo}`
     );
     if (response.data && response.data.message.success_key === 1) {
-      console.log("Customer Data:", response.data.message.customer);
+      // console.log("Customer Data:", response.data.message.customer);
       return response.data.message.customer;
     } else {
       throw new Error("Invalid API response");
@@ -180,7 +180,7 @@ export const fetchSalesOrderList = async (hubManagerEmail, pageNo) => {
       `${APIs.getSalesOrderList}?hub_manager=${hubManagerEmail}&page_no=${pageNo}`
     );
     if (response.data && response.data.message.success_key === 1) {
-      console.log("Sales Order Data:", response.data.message);
+      // console.log("Sales Order Data:", response.data.message);
       return response.data.message;
       // order_list
     } else {
@@ -313,7 +313,7 @@ export const validateGiftCard = async (code,customerName) => {
       }
       }
     );
-    console.log(response.data.message, "Gift Code response");
+    // console.log(response.data.message, "Gift Code response");
     return response.data.message;
   } catch (error) {
     console.error("Error validating gift code:", error);
@@ -328,7 +328,7 @@ export const sendMailToUser = async (sales_order_id) => {
           sales_order:sales_order_id
       }
     );
-    console.log(response.data.message, "Mail Api Response");
+    // console.log(response.data.message, "Mail Api Response");
     return response.data.message;
   } catch (error) {
     console.error("Error to Send Mail:", error);
@@ -341,7 +341,7 @@ export const getItemByScan = async (barcode,costCenter) => {
   try {
     const res = await axiosInstance.get(`${APIs.getCategoriesAndProducts}?barcode=${Barcode}&cost_center=${costCenter}`);
     if (res.data && res.data.message) {
-      console.log("API Data:", res.data.message);
+      // console.log("API Data:", res.data.message);
       return res;
     } else {
       throw new Error("Invalid API response");
@@ -352,11 +352,11 @@ export const getItemByScan = async (barcode,costCenter) => {
   }
 };
 
-export const fetchSearchSalesOrderList = async (hubManagerEmail, name) => {
+export const fetchSearchSalesOrderList = async (hubManagerEmail, name='',mobile_no='') => {
   
   try {
     const response = await axiosInstance.get(
-      `${APIs.getSalesOrderList}?hub_manager=${hubManagerEmail}&name=${name}`
+      `${APIs.getSalesOrderList}?hub_manager=${hubManagerEmail}&name=${name}&mobile_no=${mobile_no}`
     );
     if (response.data && response.data.message.success_key === 1) {
       // console.log("Sales Order Data:", response.data.message.order_list);

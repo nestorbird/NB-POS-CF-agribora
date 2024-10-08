@@ -3,9 +3,15 @@ import ProductCard from "./ProductCard";
 import Pagination from "./pagination"; // Import the Pagination component
 
 const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);  // Page state
+  const [productsPerPage, setProductsPerPage] = useState(10);  // Products per page
   
+  // Reset page when category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [categoryName]);
+
+  // Adjust number of products per page based on screen size
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -16,7 +22,7 @@ const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
       } else if (width >= 1230) {
           setProductsPerPage(8);
         }
-       else if (width >= 1150) {
+      else if (width >= 1150) {
         setProductsPerPage(6);
       } else {
         setProductsPerPage(4);
@@ -34,27 +40,18 @@ const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
   // Calculate the indexes for slicing the products array
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);  // Current page products
 
   // Determine total number of pages
   const totalPages = Math.ceil(products.length / productsPerPage);
 
-  // Function to handle page changes
-  const handlePageChange = (direction) => {
-    setCurrentPage((prevPage) => {
-      if (direction === "next" && prevPage < totalPages) {
-        return prevPage + 1;
-      }
-      if (direction === "prev" && prevPage > 1) {
-        return prevPage - 1;
-      }
-      return prevPage;
-    });
+  // Handle page changes
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage); // Update to the selected page
   };
-  
+
   return (
     <div className="product-catalog">
-      {console.log("PtotalPage",totalPages)}
       <h2>{categoryName}</h2>
       <div className="product-list">
         {currentProducts.length > 0 ? (
@@ -69,11 +66,13 @@ const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
           <p>No products available</p>
         )}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}  // Direct page change function
+        />
+      )}
     </div>
   );
 };
