@@ -11,7 +11,7 @@ const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
   const [returnedItems, setReturnedItems] = useState(null);
   const themeSettings = useThemeSettings();
 
-  console.log(order, "checking in the order modal");
+  // console.log(order, "checking in the order modal");
 
   useEffect(() => {
     if (order) {
@@ -107,7 +107,7 @@ const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       const response = await returnSalesOrder(salesInvoice);
-      console.log("Return API Response:", response);
+      // console.log("Return API Response:", response);
 
       if (response && response.message && response.message.success_key === 1) {
         const returnedItems = [];
@@ -201,7 +201,7 @@ const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       const response = await returnSalesOrder(salesInvoice);
-      console.log("Return API Response:", response);
+      // console.log("Return API Response:", response);
 
       if (response && response.message && response.message.success_key === 1) {
         const totalAmount = order.grand_total;

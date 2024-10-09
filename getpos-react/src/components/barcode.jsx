@@ -43,9 +43,9 @@ const BarcodeScanner = () => {
         try {
             const res = await getItemByScan(code);
             if (res.status === 200) {
-                console.log(res.data.message);
+              
                 const items = res.data.message[0].items;
-                console.log(items,"Scanner")
+             
                 items.forEach(item => {
                     addItemToCart({
                         id: item.id,

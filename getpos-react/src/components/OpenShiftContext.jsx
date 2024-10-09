@@ -11,7 +11,7 @@ export const OpenShiftProvider = ({ children }) => {
 
   useEffect(() => {
     if (openShiftData) {
-      console.log("Saving openShiftData to localStorage:", openShiftData);
+      // console.log("Saving openShiftData to localStorage:", openShiftData);
       localStorage.setItem("openShiftData", JSON.stringify(openShiftData));
     }
   }, [openShiftData]);

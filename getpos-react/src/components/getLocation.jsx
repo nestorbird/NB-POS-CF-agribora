@@ -61,7 +61,7 @@ const Location = () => {
   const handleProceed = (e) => {
     e.preventDefault(); // Prevent default form submission behavior
     if (selectedLocation && selectedCostCenter) {
-      navigate("/openshift", { state: { loginResponse } });
+      navigate("/openshift", { state: { loginResponse }, replace: true }); 
     } else {
       alert("Please select both location and store before proceeding.");
     }
@@ -78,7 +78,6 @@ const Location = () => {
   return (
     
     <div className="login-page">
-      {console.log(loginResponse)}
       <Layout showFooter={false} showDropdown={false}>
         <div className="login-screen">
           <form

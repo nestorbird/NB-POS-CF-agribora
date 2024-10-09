@@ -46,7 +46,7 @@ const ProductPopup = ({ product, onClose, selectedCustomer }) => {
   };
 
   const incrementQuantity = () => {
-    console.log("product",product)
+    // console.log("product",product)
     if (quantity < product.stock[0].stock_qty) {
       setQuantity(quantity + 1);
     } else {

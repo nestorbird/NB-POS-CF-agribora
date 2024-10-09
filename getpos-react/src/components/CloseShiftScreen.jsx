@@ -134,7 +134,7 @@ const CloseShiftScreen = () => {
       const postingDate = new Date().toISOString();
       const periodEndDate = new Date().toISOString();
 
-      console.log("Entered Cash Balance:", cashBalance, typeof cashBalance);
+      // console.log("Entered Cash Balance:", cashBalance, typeof cashBalance);
 
       // Validate cash balance
       if (parseFloat(cashBalance) !== parseFloat(expectedCashBalance)) {

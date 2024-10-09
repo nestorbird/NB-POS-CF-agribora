@@ -68,12 +68,14 @@ def get_user():
         
         # Generate API keys if not present
         # api_generate = generate_keys(current_user)
-        
+         # Ensure CSRF token is generated (CSRF is for authenticated sessions)
+        # csrf_token = frappe.sessions.get_csrf_token() if hasattr(frappe.sessions, 'get_csrf_token') else frappe.session.csrf_token
         # Prepare the response with user details
         frappe.response["message"] = {
             "success_key": 1,
             "message": "success",
             "sid": frappe.session.sid,
+        #     "csrf": csrf_token,
             "api_key": user.api_key ,
             "api_secret": user.get_password('api_secret') ,
         #     "api_key": user.api_key if user.api_key else api_generate[1],
@@ -81,6 +83,7 @@ def get_user():
             "username": user.username,
             "email": user.email
         }
+        
         
     except Exception as e:
         frappe.clear_messages()

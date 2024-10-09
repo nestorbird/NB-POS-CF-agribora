@@ -58,7 +58,7 @@ const LandingPage = () => {
     setError(null);
     try {
       const data = await getUser();
-
+       console.log("data",data)
       if (data.message?.success_key === 1) {
         const userInfo = {
           name: data.message.username,
@@ -67,8 +67,8 @@ const LandingPage = () => {
           profileImage: data.message.profile_image,
         };
         localStorage.setItem("user", JSON.stringify(userInfo));
-
-        navigate("/location", { state: { loginResponse: data } });
+        
+        navigate("/location", { state: { loginResponse: data },replace:true });
       } else {
         setError("Failed to retrieve user data.");
       }

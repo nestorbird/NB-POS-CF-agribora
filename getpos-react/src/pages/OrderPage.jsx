@@ -27,6 +27,7 @@ const OrderPage = ({ hubManagerEmail }) => {
   const [PageCount, setPageCount] = useState(1);
   const [Data, setData] = useState([]);
   const [details,setDetails]=useState(null)
+  const [apiSearch,setApiSearch]=useState('')
   const GetSalesOrderList = async (PageCount) => {
     try {
       const { email } = JSON.parse(localStorage.getItem("user"));
@@ -51,10 +52,15 @@ const OrderPage = ({ hubManagerEmail }) => {
 
   useEffect(() => {
     const { email } = JSON.parse(localStorage.getItem("user"));
-    fetchSearchSalesOrderList(email, searchTerm).then((res) => {
+    fetchSearchSalesOrderList(email, apiSearch?.name,apiSearch?.mobile_no).then((res) => {
       setData(res);
     });
-  }, [searchTerm]);
+  }, [apiSearch]);
+
+    const isMobileNumber = (term) => {
+    if (!isNaN(term) ) return true;  
+    return false;
+  };
 
   const fetchParkedOrders = () => {
     const parkedOrders = JSON.parse(localStorage.getItem("parkedOrders")) || [];
@@ -80,7 +86,15 @@ const OrderPage = ({ hubManagerEmail }) => {
     fetchOrders();
   }, [hubManagerEmail, currentPageParked]);
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+    const term = event.target.value; // Get the current input value
+    setSearchTerm(term); // Update the search term in state
+  
+    // Check if the current term is a valid mobile number
+    if (isMobileNumber(term)) {
+      setApiSearch({ mobile_no: term }); // Set mobile number in the API search
+    } else {
+      setApiSearch({ name: term }); // Set name in the API search
+    }
     setCurrentPageParked(1); // Reset to the first page when searching
     setCurrentPageComplete(1); // Reset to the first page when searching
   };
@@ -185,7 +199,7 @@ const OrderPage = ({ hubManagerEmail }) => {
   };
 
   const filteredOrders = orders.filter((order) => {
-    console.log(order);
+    console.log("order",order);
     return (
       (order.customer_name &&
         order.customer_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -332,7 +346,7 @@ const OrderPage = ({ hubManagerEmail }) => {
               <button
                 className="next"
                 onClick={handleNextBtn}
-                disabled={Data?.length === 0||Math.ceil(details.number_of_orders/details.items_perpage)===PageCount}
+                disabled={Data?.length === 0||Math.ceil(details?.number_of_orders/details?.items_perpage)===PageCount}
               >
                 Next
               </button>
