@@ -31,7 +31,7 @@ footer h2 span{color:var(--Secondary-01,#FF1746);font-size:32px;font-weight:600;
 .footer-facebook,.footer-instagram,.footer-linkedin,.footer-youtube{padding-left:20px}
 .padding-left50{padding-left:10.6rem}
 .padding-left40{padding-left:2rem}
-.mt-99px{width:90%;margin:0 auto;left:0;right:0;justify-content:center;padding-top:27px}
+.mt-99px{width:90%;margin:0 auto;left:0;right:0;justify-content:center;}
 .modal-content{border-radius:8px;background:var(--mind-white,#FFF);padding:30px;width:auto}
 .modal-content h2{color:var(--Hue-03,#145FFF);font-size:22px;font-weight:600;line-height:normal}
 .modal-content p{color:var(--Grays-02,#606574);font-size:16px;font-weight:400;line-height:20px;padding-top:10px}
@@ -634,8 +634,10 @@ to{opacity:1}
 .blog-whatsapp-flex{margin:54px 0 2px;display:flex;gap:20px}
 .blog-bookdemo{color:#f9f8fb;font-size:16px;font-weight:600;line-height:24px;letter-spacing:.8px;border-radius:10px;background:#0e0d15;transition:all .3s ease-in-out}
 .blog-whatsapp{gap:8px;display:flex;align-items:center}
+.flex.items-center.justify-center.inner-modals {margin-top: 30px;}
 @media screen and (max-width: 1708px) {
-.mt-99px{top:63px}
+.mt-99px{top:58px}
+.flex.items-center.justify-center.inner-modals {margin-top: 20px;}
 }
 .btn-tertiary{display:inline-flex;cursor:pointer;align-items:center;justify-content:center;border-radius:9999px;border-width:1px;--tw-border-opacity:1;border-color:#9c0000;background-color:transparent;padding:.875rem 1.5rem;text-align:center;font-size:18px;line-height:1.5rem;font-weight:600;line-height:1.375;opacity:1;border-style:none;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);color:var(--aw-color-text-muted)}
 .blog-detail .max-w-3xl{max-width:1300px}
@@ -802,7 +804,7 @@ body{width:1920px;justify-content:center;margin:auto;overflow-x:hidden!important
 .retail-module-box{padding:55px 10px}
 .retail-grid{gap:20px}
 .retail-text p{padding-bottom:60px}
-.mt-99px{padding-top:18px}
+/* .mt-99px{padding-top:0} */
 .logo-size{width:260px}
 .nav-links{font-size:18px}
 .about-welcome-flex{gap:110px}
@@ -1256,6 +1258,19 @@ footer h2{font-size:18px;line-height:30px}
 }
 @media screen and (max-width: 1023px) {
 .nav-grid a{padding:10px 0}
+.mt-99px#modal1{
+    margin-top: 45px;
+}
+.mt-99px#modal2{
+    margin-top: 90px;
+}
+.mt-99px#modal3 {
+    margin-top: 135px;
+}
+.about-us-page .hover-highlight, .food-page #solutions-link, .retail-page #solutions-link, .oms-page #features-link, .wms-page #features-link, .manufacturing-page #features-link, .hr-page #features-link, .account-page #features-link, .blog-listing-page #resources-link, .blog-detail #resources-link, .booking-page #solutions-link {
+    color: initial;
+    border:none !important;
+}
 #case-detail-right,.case-detail-banner h1 br{display:none}
 #case-detail{width:100%!important}
 .single-news header h1{padding-bottom:16px}
