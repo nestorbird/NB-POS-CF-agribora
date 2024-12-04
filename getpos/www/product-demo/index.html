@@ -1,0 +1,174 @@
+{% extends "templates/web.html" %}
+
+{% block title %}GETPOS Product Demo Videos | Business Operating System{% endblock %}
+
+{% block meta %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="blog-list-content">
+	<div class="website-list" data-doctype="Blog Post" data-txt="[notxt]">
+		<main class="antialiased text-page bg-white dark:text-slate-300 tracking-tight dark:bg-dark single-news news-listing-page blog news-detail-page events-padding">
+			<section class="mx-auto lg:max-w-7xl max-lg:max-w-7xl max-sm:w-full">
+				<header class="mb-8 md:mb-16 justify-between items-center mx-auto flex single-news-header">
+					<h1 class="inter text-left">Product Demo</h1>
+					<p class="inter">
+						Explore our demo videos to see how our POS&nbsp;<br> software simplifies operations, boosts efficiency,&nbsp;<br> and transforms your business.
+					</p>
+				</header>
+				<ul class="grid gap-4 grid-cols-3">
+					<!-- First Video -->
+					<li id="mb-73">
+						<article class="max-w-md mx-auto md:max-w-none grid news-list-block md:grid-cols-1">
+							<div>
+								<a class="relative block group popup-youtube" href="https://www.youtube.com/watch?v=1cFxLA-Cdz8">
+									<div class="relative">
+										<picture>
+											<img src="/assets/getpos/images/getpos-demo1.webp" alt="Effortless Booking and Happy Customers with GETPOS Unified POS System - Cover Image" class="news-list-img">
+										</picture>
+									</div>
+								</a>
+								<h3 class="text-base sm:text-base font-bold leading-tight mb-2 font-heading px-3 py-3">
+									<a class="hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200 inter" href="https://getpos.in/getpos-retail-operating-system-for-organised-business-owners">
+										GETPOS - Retail Operating System For Organised Business Owners
+									</a>
+								</h3>
+							</div>
+							<div class="mt-0 px-3 pb-3">
+								<header>
+									<div class="mb-1">
+										<div class="flex gap-2 items-center justify-between">
+											<h6 class="inter new-author-date">December 2, 2024</h6>
+										</div>
+									</div>
+								</header>
+							</div>
+						</article>
+					</li>
+					<!-- Second Video -->
+					<li id="mb-73">
+						<article class="max-w-md mx-auto md:max-w-none grid news-list-block md:grid-cols-1">
+							<div>
+								<a class="relative block group popup-youtube" href="https://www.youtube.com/watch?v=NFLr4VvbNHs">
+									<div class="relative">
+										<picture>
+											<img src="/assets/getpos/images/getpos-demo2.webp" alt="Seamless Inventory Management with GETPOS - Cover Image" class="news-list-img">
+										</picture>
+									</div>
+								</a>
+								<h3 class="text-base sm:text-base font-bold leading-tight mb-2 font-heading px-3 py-3">
+									<a class="hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200 inter" href="https://getpos.in/getpos-demo-stock-and-warehouse-management">
+										GETPOS Demo | Stock & Warehouse Management
+									</a>
+								</h3>
+							</div>
+							<div class="mt-0 px-3 pb-3">
+								<header>
+									<div class="mb-1">
+										<div class="flex gap-2 items-center justify-between">
+											<h6 class="inter new-author-date">December 3, 2024</h6>
+										</div>
+									</div>
+								</header>
+							</div>
+						</article>
+					</li>
+					<!-- Third Video -->
+					<li id="mb-73">
+						<article class="max-w-md mx-auto md:max-w-none grid news-list-block md:grid-cols-1">
+							<div>
+								<a class="relative block group popup-youtube" href="https://www.youtube.com/watch?v=dAosvNzvLYI">
+									<div class="relative">
+										<picture>
+											<img src="/assets/getpos/images/getpos-demo3.webp" alt="GETPOS Advanced Analytics Overview - Cover Image" class="news-list-img">
+										</picture>
+									</div>
+								</a>
+								<h3 class="text-base sm:text-base font-bold leading-tight mb-2 font-heading px-3 py-3">
+									<a class="hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200 inter" href="https://getpos.in/getpos-demo-key-features-of-pos-and-how-to-use-them">
+										GETPOS Demo: Key Features Of POS and How to Use
+									</a>
+								</h3>
+							</div>
+							<div class="mt-0 px-3 pb-3">
+								<header>
+									<div class="mb-1">
+										<div class="flex gap-2 items-center justify-between">
+											<h6 class="inter new-author-date">December 4, 2024</h6>
+										</div>
+									</div>
+								</header>
+							</div>
+						</article>
+					</li>
+				</ul>
+			</section>
+		</main>
+	</div>
+</div>
+
+
+<!-- Updated JavaScript -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		// Select all YouTube links with the class 'popup-youtube'
+		const popupLinks = document.querySelectorAll(".popup-youtube");
+
+		popupLinks.forEach(link => {
+			link.addEventListener("click", function (e) {
+				e.preventDefault();
+
+				// Get the YouTube video ID from the href
+				const videoUrl = this.href;
+				const videoId = videoUrl.split("v=")[1]?.split("&")[0];
+				if (!videoId) return;
+
+				const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+
+				// Create the popup overlay
+				const popupOverlay = document.createElement("div");
+				popupOverlay.classList.add("popup-overlay");
+
+				// Add the iframe with the video
+				popupOverlay.innerHTML = `
+					<iframe src="${embedUrl}" allow="autoplay; encrypted-media"></iframe>
+					<button class="close-btn" aria-label="Close">&times;</button>
+				`;
+
+				// Append the overlay to the body
+				document.body.appendChild(popupOverlay);
+
+				// Disable body scroll when the popup is open
+				document.body.style.overflowY = 'hidden';
+
+				// Add event listener for the close button
+				popupOverlay.querySelector(".close-btn").addEventListener("click", () => {
+					popupOverlay.remove();
+					// Restore body scroll when the popup is closed
+					document.body.style.overflowY = '';
+				});
+
+				// Close popup when clicking outside the iframe
+				popupOverlay.addEventListener("click", (event) => {
+					if (!event.target.closest("iframe")) {
+						popupOverlay.remove();
+						// Restore body scroll when the popup is closed
+						document.body.style.overflowY = '';
+					}
+				});
+			});
+		});
+	});
+</script>
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+    document.body.classList.add('blog-high');
+</script>
+
+{% endblock %}

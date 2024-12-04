@@ -249,7 +249,7 @@ button.btn.btn-sm.btn-primary.btn-block.btn-login{width:100%}
 .about-partner2{object-fit:contain;width:122px}
 .about-partner3{object-fit:contain;width:153px}
 .about-partner4{object-fit:contain;width:132px}
-.about-us-page .hover-highlight,.food-page #solutions-link,.retail-page #solutions-link,.oms-page #features-link,.wms-page #features-link,.manufacturing-page #features-link,.hr-page #features-link,.account-page #features-link,.blog-listing-page #resources-link,.blog-detail #resources-link,.booking-page #solutions-link{color:#145FFF;border-bottom:3px solid #145FFF}
+.about-us-page .hover-highlight,.food-page #solutions-link,.retail-page #solutions-link,.oms-page #features-link,.wms-page #features-link,.manufacturing-page #features-link,.hr-page #features-link,.account-page #features-link,.blog-listing-page #resources-link,.blog-detail #resources-link,.blog-high #resources-link,.booking-page #solutions-link{color:#145FFF;border-bottom:3px solid #145FFF}
 .about-line{position:absolute;top:230px;left:358px}
 .border-div{display:none}
 .retail-banner{padding:100px 0;background:url(/assets/getpos/images/retail-banner.webp)no-repeat;background-size:cover}
@@ -558,7 +558,7 @@ to{opacity:1}
 .news-list-block{border-radius:10px;background:#FFF;box-shadow:0 8px 64px 0 rgba(0,0,0,0.06);height:100%;display:flex;height:100%;flex-direction:column;justify-content:space-between}
 .news-list-img{border-radius:10px 10px 0 0;height:auto;width:100%}
 .new-author-date{color:#66737A;font-size:16px;font-weight:400;line-height:20px}
-#mb-72{margin-bottom:72px;transition:all .3s ease-in-out;border-radius:10px}
+#mb-72,#mb-73{margin-bottom:72px;transition:all .3s ease-in-out;border-radius:10px}
 #mb-72:hover{transition:all .3s ease-in-out;box-shadow:0 0 10px 0 rgba(0,0,0,0.40);opacity:.9}
 .account-hero-banner{background:url(/assets/getpos/images/accounts-bg.webp)no-repeat center;background-size:cover;background-position:0 0;padding:100px 0}
 .account-hero-banner h1{color:#FFF;font-size:64px;font-weight:600;line-height:72px;text-transform:capitalize}
@@ -709,11 +709,58 @@ to{opacity:1}
 .blog-share-btns{padding-bottom:14px}
 .news-section.news-section-blog{padding-bottom:0}
 .blog-left-para h4,.blog-right h4{color:#000;font-size:22px;font-weight:600;line-height:32px;letter-spacing:-.8px;padding-bottom:12px}
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.popup-overlay iframe {
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 16 / 9; 
+    border: none;
+}
+
+.popup-overlay .close-btn {
+position: absolute;
+top: 20%;
+right: 27%;
+font-size: 38px;
+color: #fff;
+cursor: pointer;
+background: transparent;
+border: none;
+}
+#mb-73 .news-list-img {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  #mb-73 .news-list-img:hover {
+    transform: scale(1.04);
+  }
+  
+  #mb-73 .news-list-block {
+    overflow: hidden;
+    position: relative;
+  }
+  
 @media screen and (min-width: 1921px) {
 body{width:1920px;justify-content:center;margin:auto;overflow-x:hidden!important}
 }
 @media screen and (max-width: 1708px) {
 .blog-main-div{padding:0 45px 86px}
+.popup-overlay iframe {max-width: 730px;}
+.popup-overlay .close-btn {top: 16%;right: 23%;font-size: 36px;}
 .blog-left{width:840px}
 .fixed-section-class{top:100px}
 .blog-right,.blog-left-para,.blog-form{width:350px}
@@ -850,6 +897,8 @@ body{width:1920px;justify-content:center;margin:auto;overflow-x:hidden!important
 }
 @media screen and (max-width: 1500px) {
 .oms-banner-text{width:45%}
+.popup-overlay iframe {max-width: 630px;}
+.popup-overlay .close-btn {top: 16%;right: 23%;font-size: 36px;}
 .main-case-content{padding:0 16px 100px}
 .case-detail-banner{padding:77px 0 66px}
 .our-jrny-box{width:65%}
@@ -1102,6 +1151,7 @@ header span.mr-4{display:flex;height:45px}
 }
 @media screen and (max-width: 1200px) {
 .single-news-header{gap:24px}
+.popup-overlay .close-btn {top: 16%;right: 10%;}
 .blog-bookdemo{font-size:14px}
 .blog-main-div{padding:0 30px 36px}
 .case-detail-banner{padding:77px 20px 66px}
@@ -1115,7 +1165,6 @@ header span.mr-4{display:flex;height:45px}
 .accounts-complete-box1{gap:50px;padding-bottom:40px!important}
 .account-need-text{padding:0 50px;gap:32px}
 .account-need{padding:50px 0 0}
-.single-news header p br{display:none}
 .account-hero-banner{padding:50px}
 .account-hero-banner h1{font-size:52px;line-height:62px}
 .account-hero-banner p{font-size:18px;line-height:30px;padding-top:24px}
@@ -1261,6 +1310,7 @@ footer h2{font-size:18px;line-height:30px}
 .mt-99px#modal1{
     margin-top: 45px;
 }
+.single-news header p br{display:none}
 .mt-99px#modal2{
     margin-top: 90px;
 }
@@ -1277,7 +1327,8 @@ footer h2{font-size:18px;line-height:30px}
 .account-need h2{font-size:32px;line-height:40px}
 .account-need p{font-size:18px;line-height:30px}
 .single-news{padding:50px 8px 28px}
-#mb-72{margin-bottom:22px}
+.single-news.events-padding{padding-left: 20px;padding-right: 20px;}
+#mb-72,#mb-7{margin-bottom:22px}
 .single-news-header{flex-direction:column;align-items:baseline;gap:0;margin:16px 0 40px}
 .nav-grid a:hover{box-shadow:none}
 .hr-employee9-responsive{display:flex}
@@ -1493,6 +1544,7 @@ footer .pr-28.pr-28{padding-right:0}
 .hr-page .reversed-flex{flex-direction:row}
 }
 @media screen and (max-width: 767px) {
+.popup-overlay .close-btn {top: 24%;right: 20px;}
 .case-detail-banner .written-likes img{width:32px;height:32px;border-radius:32px;margin-right:5px}
 .fixed-section-class .blog-form{display:block}
 .blog-share-btns{padding:0 0 24px}
@@ -1541,7 +1593,7 @@ footer .pr-28.pr-28{padding-right:0}
 .account-hero-banner{padding:40px 20px}
 .account-hero-text,.account-hero-image{width:100%}
 .single-news{padding:24px 8px 34px}
-#mb-72{margin-bottom:6px}
+#mb-72,#mb-73{margin-bottom:6px}
 .single-news .grid-cols-3{grid-template-columns:repeat(1,minmax(0,1fr))}
 .single-news-header{flex-direction:column;align-items:start}
 .single-news header h1{padding-bottom:16px;font-size:28px;line-height:40px}
