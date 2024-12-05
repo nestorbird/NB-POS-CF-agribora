@@ -80,13 +80,13 @@
 									<p class="inter">{{ blog_intro }}
 									</p>
 									<button
-										class="px-3 py-2 btn shadow-none font-semibold bg-black button-black max-sm:text-xs md:text-sm text-white blog-bookdemo"
+										class="px-3 py-2 btn shadow-none font-semibold bg-black button-black max-sm:text-xs md:text-sm text-white blog-bookdemo2 btn-hover"
 										data-bs-target="#contactUs" data-bs-toggle="modal">Learn More
 									</button>
 								</div>
 								<div class="blog-form">
 									<h4 class="inter mb-2">Discover Unified GETPOS system</h4>
-									<script data-hubspot-rendered="true">
+									<!-- <script data-hubspot-rendered="true">
 										hbspt.forms.create({
 											region: "na1",
 											portalId: "6967036",
@@ -102,7 +102,44 @@
 									<div id="blogform" data-hs-forms-root="true"><iframe id="hs-form-iframe-0"
 											class="hs-form-iframe" title="Form 0" scrolling="no" width="100%"
 											style="position: static; border: none; display: block; overflow: hidden; width: 100%; height: 428px;"
-											height="428"></iframe></div>
+											height="428"></iframe></div> -->
+											<div class="relative">
+												<div id="responseMessage"></div>
+												<form id="frm_contact" method="POST" action="javascript:void(0);">
+													<div class="form-group mb-3 position-relative">
+														<input type="text" class="form-control" id="contactName" name="full_name" placeholder="Full Name" required>
+														<span class="mandatory-star">*</span>
+													</div>
+													<div class="form-group mb-3 position-relative">
+														<input type="text" class="form-control" id="contactMobile" name="mobile" placeholder="Mobile" required>
+														<span class="mandatory-star">*</span>
+													</div>
+													<div class="form-group mb-3 position-relative">
+														<input type="email" class="form-control" id="contactEmail" name="email" placeholder="Email" required>
+														<span class="mandatory-star">*</span>
+													</div>
+													<div class="form-group mb-3 position-relative">
+														<input type="text" class="form-control" id="contactCountry" name="country" placeholder="Country" required>
+														<span class="mandatory-star">*</span>
+													</div>
+													<div class="form-group mb-3 position-relative">
+														<textarea class="form-control" id="contactMessage" name="message" placeholder="Your Message" rows="5"></textarea>
+													</div>
+											
+													<!-- Terms and Conditions Checkbox -->
+													<div class="form-group mb-3">
+														<label for="termsConditions">
+															<input type="checkbox" id="termsConditions" name="terms_conditions" required>
+															I agreed to <a class="terms-and-conditions" style="color:#0a58ca;" href="https://getpos.in/terms-and-conditions">Terms and Conditions</a>.
+														</label>
+														<div id="termsErrorMessage" style="display:none; color: red;">Please accept the Terms and Conditions before submitting.</div>
+													</div>
+											
+													<div class="form-group">
+														<button type="submit" class="btn getpos-form-btn inter" id="contactSubmit">Submit</button>
+													</div>
+												</form>
+											</div>
 								</div>
 								<div class="sm:mt-1 align-middle to-black dark:text-slate-600 blog-share-btns">
 									<div
