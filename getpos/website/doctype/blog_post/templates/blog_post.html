@@ -14,7 +14,7 @@
 			<article>
 				<header>
 					<h3 class="leading-relaxed tracking-tighter inter">BLOGS</h3>
-					<h1 class="text-3xl font-bold leading-relaxed tracking-tighter inter">
+					<h1 class="text-3xl font-bold leading-relaxed tracking-tighter inter" id="main-title">
 						{{ title }}
 					</h1>
 					<div class="date-format flex justify-between text-gray-400 mx-auto">
@@ -148,7 +148,7 @@
 											class="align-super font-bold text-gray-400 dark:text-slate-400 share">Share:</span>
 										<button class="" data-aw-social-share="twitter"
 											data-aw-url="https://getpos.in/{{ post.route }}" title="Twitter Share"
-											data-aw-text="GETPOS System for Retail Industry: The Impact on Daily Store Operations "><img
+											data-aw-text="{{ title }}"><img
 												alt="logo" src="/assets/getpos/images/white-twitter1.webp"
 												class=""></button> 
 												<button class="" data-aw-social-share="facebook"
@@ -157,12 +157,12 @@
 												class=""></button> 
 												<button class="" data-aw-social-share="linkedin"
 											data-aw-url="https://getpos.in/{{ post.route }}" title="Linkedin Share"
-											data-aw-text="GETPOS System for Retail Industry: The Impact on Daily Store Operations "><img
+											data-aw-text="{{ title }}"><img
 												alt="logo" src="/assets/getpos/images/white-linkedIn1.webp"
 												class=""></button>
 												<button class="" data-aw-social-share="whatsapp"
 											data-aw-url="https://getpos.in/{{ post.route }}" title="Whatsapp Share"
-											data-aw-text="GETPOS System for Retail Industry: The Impact on Daily Store Operations "><svg
+											data-aw-text="{{ title }}"><svg
 												viewBox="0 0 24 24" astro-icon="ri:whatsapp-fill"
 												class="h-6 dark:hover:text-slate-300 dark:text-slate-500 text-gray-400 w-6"
 												>
@@ -172,7 +172,7 @@
 											</svg></button> 
 											<button class="" data-aw-social-share="mail"
 											data-aw-url="https://getpos.in/{{ post.route }}" title="Email Share"
-											data-aw-text="GETPOS System for Retail Industry: The Impact on Daily Store Operations "><svg
+											data-aw-text="{{ title }}"><svg
 												viewBox="0 0 24 24" astro-icon="ri:mail-fill"
 												class="h-6 dark:hover:text-slate-300 dark:text-slate-500 text-gray-400 w-6"
 												>
