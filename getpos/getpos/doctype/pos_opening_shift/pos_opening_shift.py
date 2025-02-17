@@ -7,7 +7,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint
 from frappe.model.document import Document
-from getpos.custom_api.status_updater import StatusUpdater
+from getpos.custom_api.v1.status_updater import StatusUpdater
 
 
 class POSOpeningShift(StatusUpdater):

@@ -38,8 +38,8 @@ from erpnext.controllers.selling_controller import SellingController
 from erpnext.projects.doctype.timesheet.timesheet import get_projectwise_timesheet_data
 from erpnext.setup.doctype.company.company import update_company_current_month_sales
 from erpnext.stock.doctype.delivery_note.delivery_note import update_billed_amount_based_on_so
-from erpnext.stock.doctype.serial_no.serial_no import get_delivery_note_serial_no, get_serial_nos
-
+from erpnext.stock.doctype.serial_no.serial_no import  get_serial_nos
+from getpos.overrides.get_delivery_note import get_delivery_note_serial_no
 form_grid_templates = {"items": "templates/form_grid/item_grid.html"}
 
 

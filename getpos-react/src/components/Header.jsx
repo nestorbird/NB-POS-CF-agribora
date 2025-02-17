@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import Logo from "../assets/images/logo.png";
 import SearchIcon from "../assets/images/Search-icon.png";
 import { useLocation } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+
 const Header = ({ onSearch }) => {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,11 +36,33 @@ const Header = ({ onSearch }) => {
     <header className="header">
       <div className="header-logo">
         {user && costCenter && Openshift ? (
-          <NavLink to="/main">
-            <img src={Logo} alt="Logo" />
-          </NavLink>
+          <>
+            <a href="/getpos-react">
+              <img src={Logo} alt="Logo" />
+            </a>
+            <button
+              onClick={() => {
+                const origin = window.location.origin;
+                window.location.href = `${origin}/app/home`;
+              }}
+              class="admin-panel-btn"
+            >
+              Go To Admin Panel
+            </button>
+          </>
         ) : (
-          <img src={Logo} alt="Logo" />
+          <>
+            <img src={Logo} alt="Logo" />
+            <button
+              onClick={() => {
+                const origin = window.location.origin;
+                window.location.href = `${origin}/app/home`;
+              }}
+              class="admin-panel-btn"
+            >
+              Go To Admin Panel
+            </button>
+          </>
         )}
       </div>
       <div className="header-right">
@@ -53,27 +75,8 @@ const Header = ({ onSearch }) => {
                 value={searchQuery}
                 onChange={handleSearch}
               />
-              <img src={SearchIcon} alt="" />
+              <img id="searchIcon" src={SearchIcon} alt="" />
             </div>
-            {/* <div className="header-user-profile">
-            <img
-              src={user.profileImage || PlaceholderProfile}
-              alt="Profile"
-              className="profile-image"
-            />
-            <span className="header-user-name">
-              {user.name} <br /> {user.role}
-            </span>
-            <div className="header-user-dropdown">
-              <button className="dropdown-button">
-                <img src={Arrow} alt="" />
-              </button>
-              <div className="dropdown-content">
-                <a to="/profile">Profile</a>
-                <a to="/closeshift">Logout</a>
-              </div>
-            </div>
-          </div> */}
           </>
         ) : (
           []
@@ -89,11 +92,11 @@ const Header = ({ onSearch }) => {
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           {user ? (
             <>
-              <NavLink to="/profile">Profile</NavLink>
-              <NavLink to="/logout">Logout</NavLink>
+              <a href="/profile">Profile</a>
+              <a href="/logout">Logout</a>
             </>
           ) : (
-            <NavLink to="/">Login</NavLink>
+            <a href="/">Login</a>
           )}
         </div>
       </div>

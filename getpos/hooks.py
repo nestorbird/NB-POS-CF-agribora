@@ -49,6 +49,15 @@ fixtures = [
                 ]
             ]
         }
+    },
+
+     {
+        "dt": "Role",
+        "filters": [["role_name", "=", "GetPos User"]]
+    },
+    {
+        "dt": "Custom DocPerm",
+        "filters": [["role", "=", "GetPos User"]]
     }
 ]
 # include js, css files in header of desk.html
@@ -113,6 +122,9 @@ doctype_js = {
 
 # before_install = "nbpos.install.before_install"
 # after_install = "nbpos.install.after_install"
+after_install = [ "getpos.setupWiz.run_setup_wizard",
+ "getpos.custom_api.v1.workspace.workspace_hide"
+ ]
 
 # Desk Notifications
 # ------------------
@@ -249,15 +261,14 @@ user_data_fields = [
 		"doctype": "{doctype_4}"
 	}
 ]
-after_migrate = "getpos.getpos.after_migrate.main"
+after_migrate = ["getpos.getpos.after_migrate.main"]
 # Authentication and authorization
 # --------------------------------
 
-# auth_hooks = [
-# 	"nbpos.auth.validate"
-# ]
 
-# no_csrf=["getpos.getpos.api.login"]
 
+on_session_creation = "getpos.Customization.custom_header.set_user_active"
+on_logout = "getpos.Customization.custom_header.set_user_inactive"
+on_login="getpos.custom_api.v1.demo_data.create_cost_center"
 
 website_route_rules = [{'from_route': '/getpos-react/<path:app_path>', 'to_route': 'getpos-react'},]

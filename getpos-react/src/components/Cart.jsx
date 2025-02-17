@@ -511,7 +511,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
 
   const stockQtyMap = cartItems.reduce((map, cartItem) => {
     const stockQty =
-      cartItem.stock.length > 0 ? cartItem.stock[0].stock_qty : 0;
+      cartItem?.stock?.length > 0 ? cartItem?.stock[0]?.stock_qty : 0;
     map[cartItem.id] = stockQty;
     return map;
   }, {});
