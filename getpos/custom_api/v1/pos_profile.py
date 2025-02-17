@@ -1,13 +1,185 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2020, NestorBird and contributors
-# For license information, please see license.txt
-
 from __future__ import unicode_literals
-import frappe
-import json
+import frappe,json
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import flt
+from frappe.utils import comma_or, nowdate, getdate, flt
+
+@frappe.whitelist()
+def get_shift_transaction(pos_opening_shift):
+    data = {}
+
+    pos_opening_shift_doc = frappe.get_doc("POS Opening Shift", pos_opening_shift)
+    amt = sum(i.get('amount') for i in pos_opening_shift_doc.balance_details)
+
+    sales_orders = frappe.get_all(
+        "Sales Order",
+        filters={
+            "custom_pos_shift": pos_opening_shift,
+            "docstatus": 1
+        },
+        fields=["name", "customer", "grand_total", "status"]
+    )
+
+    customers = {order.customer for order in sales_orders}
+    customer_first_order_dates = frappe.get_all(
+        "Sales Order",
+        filters={
+            "customer": ["in", list(customers)],
+            "docstatus": 1
+        },
+        fields=["customer", "min(creation) as first_order_date"],
+        group_by="customer"
+    )
+    
+    customer_first_order_dates = {entry.customer: entry.first_order_date for entry in customer_first_order_dates}
+
+    old_customers = set()
+    new_customers = set()
+    sales_order_amount = 0
+    return_order_amount = 0
+    num_transactions = 0
+    cash_collected = 0
+
+    for order in sales_orders:
+        amount = order.grand_total
+
+        if order.status == "Return":
+            return_order_amount += amount
+        else:
+            sales_order_amount += amount
+
+        num_transactions += 1
+        cash_collected += amount
+
+        # Check if the customer is new or old
+        if customer_first_order_dates[order.customer] == order.creation:
+            new_customers.add(order.customer)
+        else:
+            old_customers.add(order.customer)
+
+    data["opening_amount"] = amt
+    data["old_customers"] = list(old_customers)
+    data["new_customers"] = list(new_customers)
+    data["sales_order_amount"] = sales_order_amount
+    data["return_order_amount"] = return_order_amount
+    data["num_transactions"] = num_transactions
+    data["cash_collected"] = cash_collected
+
+    return data
+
+
+
+@frappe.whitelist(methods=["GET"])
+def get_opening_data():
+    frappe.set_user("Administrator")
+    data = {}
+    data["companys"] = frappe.get_list("Company", limit_page_length=0, order_by="name")
+    data["pos_profiles_data"] = frappe.get_list(
+        "POS Profile",
+        filters={"disabled": 0},
+        fields=["name", "company"],
+        limit_page_length=0,
+        order_by="name",
+    )
+
+    pos_profiles_list = []
+    for i in data["pos_profiles_data"]:
+        pos_profiles_list.append(i.name)
+
+    payment_method_table = (
+        "POS Payment Method" if get_version() == 13 else "Sales Invoice Payment"
+    )
+    data["payments_method"] = frappe.get_list(
+        payment_method_table,
+        filters={"parent": ["in", pos_profiles_list]},
+        fields=["*"],
+        limit_page_length=0,
+        order_by="parent",
+        ignore_permissions=True
+    )
+
+    return data
+
+
+def get_version():
+    branch_name = get_app_branch("erpnext")
+    if "12" in branch_name:
+        return 12
+    elif "13" in branch_name:
+        return 13
+    else:
+        return 13
+
+def get_app_branch(app):
+    """Returns branch of an app"""
+    import subprocess
+
+    try:
+        branch = subprocess.check_output(
+            "cd ../apps/{0} && git rev-parse --abbrev-ref HEAD".format(app), shell=True
+        )
+        branch = branch.decode("utf-8")
+        branch = branch.strip()
+        return branch
+    except Exception:
+        return ""
+    
+@frappe.whitelist()
+def check_opening_shift(user):
+    open_vouchers = frappe.db.get_all(
+        "POS Opening Shift",
+        filters={
+            "user": user,
+            "pos_closing_shift": ["in", ["", None]],
+            "docstatus": 1,
+            "status": "Open",
+        },
+        fields=["name", "pos_profile"],
+        order_by="period_start_date desc",
+    )
+    data = ""
+    if len(open_vouchers) > 0:
+        data = {}
+        data["pos_opening_shift"] = frappe.get_doc(
+            "POS Opening Shift", open_vouchers[0]["name"]
+        )
+        update_opening_shift_data(data, open_vouchers[0]["pos_profile"])
+    return data
+
+
+def update_opening_shift_data(data, pos_profile):
+    data["pos_profile"] = frappe.get_doc("POS Profile", pos_profile)
+    data["company"] = frappe.get_doc("Company", data["pos_profile"].company)
+    allow_negative_stock = frappe.get_value(
+        "Stock Settings", None, "allow_negative_stock"
+    )
+    data["stock_settings"] = {}
+    data["stock_settings"].update({"allow_negative_stock": allow_negative_stock})
+
+
+@frappe.whitelist()
+def create_opening_voucher(pos_profile, company, balance_details):
+    if isinstance(balance_details, str):
+        balance_details = json.loads(balance_details)
+
+    new_pos_opening = frappe.get_doc(
+        {
+            "doctype": "POS Opening Shift",
+            "period_start_date": frappe.utils.get_datetime(),
+            "posting_date": frappe.utils.getdate(),
+            "user": frappe.session.user,
+            "pos_profile": pos_profile,
+            "company": company,
+            "docstatus": 1,
+        }
+    )
+    new_pos_opening.set("balance_details", balance_details)
+    new_pos_opening.insert(ignore_permissions=True)
+
+    data = {}
+    data["pos_opening_shift"] = new_pos_opening.as_dict()
+    update_opening_shift_data(data, new_pos_opening.pos_profile)
+    return data
 
 
 class POSClosingShift(Document):
@@ -186,3 +358,52 @@ def submit_printed_invoices(pos_opening_shift):
     for invoice in invoices_list:
         invoice_doc = frappe.get_doc("Sales Invoice", invoice.name)
         invoice_doc.submit()
+class OverAllowanceError(frappe.ValidationError): pass
+
+def validate_status(status, options):
+	if status not in options:
+		frappe.throw(_("Status must be one of {0}").format(comma_or(options)))
+
+status_map = {
+	"POS Opening Shift": [
+		["Draft", None],
+		["Open", "eval:self.docstatus == 1 and not self.pos_closing_shift"],
+		["Closed", "eval:self.docstatus == 1 and self.pos_closing_shift"],
+		["Cancelled", "eval:self.docstatus == 2"],
+	]
+}
+
+class StatusUpdater(Document):
+
+	def set_status(self, update=False, status=None, update_modified=True):
+		if self.is_new():
+			if self.get('amended_from'):
+				self.status = 'Draft'
+			return
+
+		if self.doctype in status_map:
+			_status = self.status
+			if status and update:
+				self.db_set("status", status)
+
+			sl = status_map[self.doctype][:]
+			sl.reverse()
+			for s in sl:
+				if not s[1]:
+					self.status = s[0]
+					break
+				elif s[1].startswith("eval:"):
+					if frappe.safe_eval(s[1][5:], None, { "self": self.as_dict(), "getdate": getdate,
+							"nowdate": nowdate, "get_value": frappe.db.get_value }):
+						self.status = s[0]
+						break
+				elif getattr(self, s[1])():
+					self.status = s[0]
+					break
+
+			if self.status != _status and self.status not in ("Cancelled", "Partially Ordered",
+																"Ordered", "Issued", "Transferred"):
+				self.add_comment("Label", _(self.status))
+
+			if update:
+				self.db_set('status', self.status, update_modified = update_modified)

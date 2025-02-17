@@ -57,7 +57,22 @@ button {
 .header-right {
   padding: 10px 0px;
 }
-
+.admin-panel-btn {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid white;
+  padding: 2px 5px;
+  margin-left: 22px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+/* Hover effect */
+.admin-panel-btn:hover {
+  background-color: white; 
+  color: black; 
+}
 .search-container {
   align-items: center;
   border: 1px solid var(--border-color);

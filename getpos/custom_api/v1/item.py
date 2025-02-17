@@ -1,9 +1,118 @@
 import frappe
+from frappe import _
+
+STANDARD_USERS = ("Guest", "Administrator")
 from frappe.utils import today,getdate,flt
 
+from frappe.utils import ( nowdate, nowtime)
+from erpnext.stock.utils import get_stock_balance
+from erpnext.stock.stock_ledger import get_previous_sle, get_stock_ledger_entries
+
+@frappe.whitelist()
+def get_item_list(filters, conditions, item_code = None):
+        return frappe.db.sql("""
+                SELECT 
+                        i.item_code, i.item_name, i.item_group, i.description,
+                        i.has_variants, i.variant_based_on,
+                        if((i.image = null or image = ''), null, 
+                        if(i.image LIKE 'http%%', i.image, concat(%(base_url)s, i.image))) as image,
+                        p.price_list_rate, i.modified as item_modified, p.modified as price_modified 
+                FROM `tabItem` i, `tabHub Manager Detail` h,`tabItem Price` p
+                WHERE   h.parent = i.name and h.parenttype = 'Item' 
+                        and p.item_code = i.name and p.selling =1
+                        and p.price_list_rate > 0 
+                        and {conditions}
+        """.format(conditions=conditions), values=filters, as_dict=1)
 
 
+@frappe.whitelist()
+def get_item_stock_balance(hub_manager, item_code, last_sync_date=None, last_sync_time="00:00"):
+        res = frappe._dict()
+        warehouse = frappe.db.get_value('Warehouse', {'hub_manager': hub_manager}, 'name')
+        if last_sync_date and last_sync_time:
+                args = {
+		"item_code": item_code,
+		"warehouse":warehouse,
+		"posting_date": last_sync_date,
+		"posting_time": last_sync_time
+                }
+                last_entry = get_stock_ledger_entries(args, ">", "desc", "limit 1", for_update=False, check_serial_no=False)
+                if last_entry:
+                        res['available_qty'] = get_stock_balance(item_code, warehouse, last_entry[0].posting_date, last_entry[0].posting_time)
+                        res['posting_date'] = last_entry[0].posting_date
+                        res['posting_time'] = last_entry[0].posting_time
 
+        else:
+                res['available_qty'] = get_stock_balance(item_code, warehouse)
+                args = {
+		"item_code": item_code,
+		"warehouse":warehouse,
+		"posting_date": nowdate(),
+		"posting_time": nowtime()
+                }
+                last_entry = get_previous_sle(args)
+                if last_entry:
+                        res['posting_date'] = last_entry.get("posting_date")
+                        res['posting_time'] = last_entry.get("posting_time")
+        
+        return res
+
+@frappe.whitelist(allow_guest=True)
+def get_filters():
+        filters = frappe.db.sql(''' Select 
+        it.item_type
+        from `tabItem Type` it
+        ''', as_dict = True)
+     
+        return filters
+
+@frappe.whitelist()
+def get_sales_taxes():
+        taxes_data = frappe.db.sql("""
+                SELECT
+        stct.name AS name,stct.title AS title,stct.is_default AS is_default,stct.disabled AS disabled,stct.company AS company,stct.tax_category AS tax_category
+                FROM `tabSales Taxes and Charges Template` AS stct 
+        
+                """, as_dict=1)
+
+        tax = frappe.db.sql("""
+        SELECT stct.name as name , stct.name as item_tax_template,
+        stc.charge_type AS charge_type , stc.account_head AS tax_type , stc.description AS description , stc.cost_center AS cost_denter ,stc.rate as tax_rate, 
+        stc.account_currency as account_currency , stc.tax_amount as tax_amount ,stc.total as total FROM `tabSales Taxes and Charges` AS stc INNER JOIN `tabSales Taxes and Charges Template`
+        as stct ON
+        stct.name=stc.parent 
+        """, as_dict=1)
+       
+        for i in taxes_data:
+                i['tax'] = [j for j in tax if i['name'] == j['name']]
+        return taxes_data
+
+def add_taxes(doc):
+        all_taxes = frappe.get_all('Account',filters={'account_name':["in",["Output Tax SGST","Output Tax CGST"]]},
+                                fields=['name','account_name'])
+        if all_taxes:
+                for tax in all_taxes:
+                        doc.append('taxes',{'charge_type':'On Net Total',
+                                        'account_head': tax.name,
+                                        'rate':0,
+                                        'cost_center':'Main - NP',
+                                        'description': tax.account_name
+                                        })
+        return doc
+        
+def get_item_tax_template(name):
+    filters={'name': name}
+    tax = frappe.db.sql("""
+    SELECT
+        it.item_tax_template
+    FROM `tabItem` i , `tabItem Tax` it
+    WHERE i.name = it.parent and i.name = %(name)s
+    """,values=filters ,  as_dict = True)
+    if tax:
+        return tax
+    else: 
+        return []
+    
 def get_price_list(item_code):
     all_item_price = frappe.get_all('Item Price',filters={'item_code':item_code,'selling':1,'price_list':'Standard Selling',
                                     'valid_from':['<=',today()]},fields=['price_list_rate','valid_upto'],order_by='modified desc', limit=1)
@@ -182,38 +291,7 @@ def get_items(from_date=None, item_group=None, extra_item_group=None, item_code=
     return data    
 
 
-# def get_related_items_with_tax(item_name):
-#     related_items_data = get_related_items(item_name)
-#     related_items = []
 
-#     for related_item in related_items_data:
-#         related_item_taxes = get_item_taxes(related_item['name'])
-#         related_item['tax'] = related_item_taxes
-
-#         # Fetch related items for the related item recursively
-#         related_item['related_items'] = get_related_items_with_tax(related_item['name'])
-
-#         related_items.append(related_item)
-
-#     return related_items
-
-
-# def get_related_items(item_name):
-#     related_items=[]
-#     get_related_items_=frappe.get_all('Related Item',filters={"parent": item_name},fields=['item'])
-#     if get_related_items_:
-#         for related_item in get_related_items_:
-#             sub_related_items=[]
-#             allergens=[]
-#             item_detail=frappe.get_value('Item',related_item.get('item'),['name','description','image','custom_estimated_time','item_name','custom_item_type'])
-#             if item_detail:
-#                 related_item_price = flt(get_price_list(related_item.get('item'))) 
-#                 allergens.append(get_allergens(item_detail[4]))
-#                 related_group_items={'id':item_detail[0],'name':item_detail[4],'description':item_detail[1],'image':f"{base_url}{item_detail[2]}",'estimated_time': item_detail[3],'item_type':item_detail[5],'product_price':related_item_price,'allergens':allergens,'related_items':sub_related_items}
-#                 sub_related_items.append(get_related_items(item_detail[0]))       
-#             related_items.append(related_group_items)
-
-#     return related_items
 
 def get_allergens(item_name):
     allergens=[]

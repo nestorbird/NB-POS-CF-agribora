@@ -38,12 +38,7 @@ const OpenShiftScreen = () => {
       console.log("Error in fetching guest customer:", error.message);
     }
   };
-  useEffect(() => {
-    if (window.csrf_token === 'None') {
-      console.warn("CSRF token is 'None'. Reloading the page to refresh the token.");
-      window.location.reload();
-    }
-  }, []);
+
 
   useEffect(() => {
     if (!loginResponse) {
