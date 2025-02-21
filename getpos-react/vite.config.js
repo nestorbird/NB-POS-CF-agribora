@@ -18,7 +18,7 @@ export default defineConfig({
 		}
 	},
 	build: {
-		outDir: '../getpos/public/getpos-react',
+		outDir: '../nbpos/public/getpos-react',
 		emptyOutDir: true,
 		target: 'es2015',
 	},
