@@ -8,10 +8,12 @@ from getpos import __version__ as version
 
 setup(
 	name="nbpos",
-	version="0.0.1",
+	version=version,
 	description="nbpos",
 	author="Nestorbird",
 	author_email="info@nestorbird.com",
-	packages=find_packages(include=["getpos", "getpos.*"]),
-	include_package_data=True
+	packages=find_packages(),
+	zip_safe=False,
+	include_package_data=True,
+	install_requires=install_requires
 )
