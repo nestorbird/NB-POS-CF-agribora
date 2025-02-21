@@ -23,7 +23,7 @@ const APIs = {
   validateGiftCode:'api/method/nbpos.custom_api.v1.coupon_and_giftcard.validate_gift_card',
   sendMail:"api/method/nbpos.custom_api.v1.sales_invoice.resend_sales_invoice_email",
   getShiftDetails:"/api/method/nbpos.nbpos.doctype.pos_closing_shift.pos_closing_shift.get_shift_details",
-  get_user: '/api/method/nbpos.custom_api.v1.nbpos_login.get_user', 
+  get_user: '/api/method/nbpos.custom_api.v1.getpos_login.get_user', 
   
 };
 

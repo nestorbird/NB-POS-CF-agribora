@@ -4,7 +4,7 @@ from frappe.utils import get_url
 @frappe.whitelist(allow_guest=True)
 def create_cost_center():
     from frappe.utils.file_manager import save_file
-    image_path = "./assets/getpos/images/bootle.jpeg"
+    image_path = "./assets/nbpos/images/bootle.jpeg"
     try:
         frappe.flags.mute_messages = True
         isDemoSetup = int(frappe.db.get_single_value('nbpos Setting', 'is_demo_setup'))
@@ -139,7 +139,7 @@ def create_cost_center():
 def upload_logo_and_set():
  
     from frappe.utils.file_manager import save_file
-    logo_image_path = "./assets/getpos/images/logo1.png"
+    logo_image_path = "./assets/nbpos/images/logo1.png"
 
     # Upload the logo image
     try:
