@@ -8,7 +8,7 @@ from getpos import __version__ as version
 
 setup(
 	name="nbpos",
-	version=version,
+	version="0.0.1",
 	description="nbpos",
 	author="Nestorbird",
 	author_email="info@nestorbird.com",
