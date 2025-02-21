@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/assets/getpos/getpos-react/ && yarn copy-html-entry",
+    "build": "vite build --base=/assets/nbpos/getpos-react/ && yarn copy-html-entry",
     "lint": "eslint .",
     "preview": "vite preview",
-    "copy-html-entry": "cp ../getpos/public/getpos-react/index.html ../getpos/www/getpos-react.html"
+    "copy-html-entry": "cp ../nbpos/public/getpos-react/index.html ../nbpos/www/getpos-react.html"
   },
   "dependencies": {
     "frappe-react-sdk": "^1.9.0",
