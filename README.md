@@ -53,7 +53,7 @@ Once you've [set up a Frappe site](https://frappeframework.com/docs/v14/user/en/
 2. Install the app on your site.
 
     ```bash
-    bench --site [site name] install-app getpos
+    bench --site [site name] install-app nbpos
     ```
 
 ## Contributing
