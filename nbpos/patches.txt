@@ -1,1 +1,1 @@
-getpos.patches.delete_fields
+nbpos.patches.delete_fields
