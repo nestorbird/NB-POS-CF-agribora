@@ -1,9 +1,9 @@
 from . import __version__ as app_version
 
-app_name = "getpos"
-app_title = "GETPOS"
+app_name = "nbpos"
+app_title = "NBPOS"
 app_publisher = "Nestorbird"
-app_description = "getpos"
+app_description = "nbpos"
 app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "info@nestorbird.com"
@@ -63,7 +63,7 @@ fixtures = [
 # include js, css files in header of desk.html
 # app_include_css = "/assets/getpos/css/nbpos.css"
 app_include_js = [
-    "/assets/getpos/js/nbpos.js",  
+    "/assets/nbpos/js/nbpos.js",  
    
 ]
 
