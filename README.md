@@ -45,8 +45,8 @@ Once you've [set up a Frappe site](https://frappeframework.com/docs/v14/user/en/
 
     | Frappe Branch | GETPOS Branch           |
     |---------------|-------------------------|
-    | version-15    | getpos-1.4             |
-    | version-14    | getpos-1.4             |
+    | version-15    | version-1.4             |
+    
 
     If it isn't specified, the `--branch` option will default to `getpos-1.4`.
 

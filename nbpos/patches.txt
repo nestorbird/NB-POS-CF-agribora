@@ -1,0 +1,1 @@
+nbpos.patches.delete_fields
