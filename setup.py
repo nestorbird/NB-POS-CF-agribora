@@ -12,7 +12,7 @@ setup(
 	description="nbpos",
 	author="Nestorbird",
 	author_email="info@nestorbird.com",
-	packages=find_packages(),
+	packages=find_packages(include=["getpos", "getpos.*"]),
 	zip_safe=False,
 	include_package_data=True,
 	install_requires=install_requires
