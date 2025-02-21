@@ -122,8 +122,8 @@ doctype_js = {
 
 # before_install = "nbpos.install.before_install"
 # after_install = "nbpos.install.after_install"
-after_install = [ "getpos.setupWiz.run_setup_wizard",
- "getpos.custom_api.v1.workspace.workspace_hide"
+after_install = [ "nbpos.setupWiz.run_setup_wizard",
+ "nbpos.custom_api.v1.workspace.workspace_hide"
  ]
 
 # Desk Notifications
@@ -152,7 +152,7 @@ after_install = [ "getpos.setupWiz.run_setup_wizard",
 # 	"ToDo": "custom_app.overrides.CustomToDo"
 # }
 override_doctype_class = {
-	"Sales Invoice": "getpos.overrides.sales_invoice.Custom"
+	"Sales Invoice": "nbpos.overrides.sales_invoice.Custom"
 }
 
 
@@ -161,28 +161,28 @@ override_doctype_class = {
 # Hook on document methods and events
 doc_events = {	
 	"Sales Order":{		
-		"validate": "getpos.getpos.hooks.sales_order.validate"
+		"validate": "nbpos.nbpos.hooks.sales_order.validate"
 	},	
 	"Item Price":{
-		"validate": "getpos.getpos.hooks.item_price.validate_item_price"
+		"validate": "nbpos.nbpos.hooks.item_price.validate_item_price"
 	},
     "Version":{
-        "after_insert": "getpos.getpos.hooks.version.after_insert"
+        "after_insert": "nbpos.nbpos.hooks.version.after_insert"
 	},   
 	"Item Group" : {
-		"before_insert" : "getpos.getpos.hooks.item_group.item_group_length"
+		"before_insert" : "nbpos.nbpos.hooks.item_group.item_group_length"
 	},
 	"Global Defaults" : {
-		"on_update" : "getpos.getpos.hooks.global_defaults.update_theme_settings"
+		"on_update" : "nbpos.nbpos.hooks.global_defaults.update_theme_settings"
 	},
     "Item" : {
-		"validate" : "getpos.getpos.hooks.item.validate_item"
+		"validate" : "nbpos.nbpos.hooks.item.validate_item"
 	},
 	
 }
 
 
-after_request = "getpos.getpos.api.after_request"
+after_request = "nbpos.nbpos.api.after_request"
 # doc_events = {
 # 	"*": {
 # 		"on_update": "method",
@@ -199,8 +199,8 @@ scheduler_events = {
 # 		"nbpos.tasks.all"
 # 	],
 	"daily": [
-			"getpos.getpos.schedulers.expired_gift_card_settlement.create_gift_card_journal_entries",
-            "getpos.getpos.schedulers.opencart_integration.order_integration"
+			"nbpos.nbpos.schedulers.expired_gift_card_settlement.create_gift_card_journal_entries",
+            "nbpos.nbpos.schedulers.opencart_integration.order_integration"
 		]
 # 	"hourly": [
 # 		"nbpos.tasks.hourly"
@@ -223,7 +223,7 @@ scheduler_events = {
 #
 # override_whitelisted_methods = {
 # 	# "frappe.desk.doctype.event.event.get_events": "nbpos.event.get_events"
-# 	"frappe.auth.LoginManager.logout":"getpos.customizations.custom_login_manager.CustomLoginManager.logout"
+# 	"frappe.auth.LoginManager.logout":"nbpos.customizations.custom_login_manager.CustomLoginManager.logout"
 # }
 #
 # each overriding function accepts a `data` argument;
@@ -261,14 +261,14 @@ user_data_fields = [
 		"doctype": "{doctype_4}"
 	}
 ]
-after_migrate = ["getpos.getpos.after_migrate.main"]
+after_migrate = ["nbpos.nbpos.after_migrate.main"]
 # Authentication and authorization
 # --------------------------------
 
 
 
-on_session_creation = "getpos.Customization.custom_header.set_user_active"
-on_logout = "getpos.Customization.custom_header.set_user_inactive"
-on_login="getpos.custom_api.v1.demo_data.create_cost_center"
+on_session_creation = "nbpos.Customization.custom_header.set_user_active"
+on_logout = "nbpos.Customization.custom_header.set_user_inactive"
+on_login="nbpos.custom_api.v1.demo_data.create_cost_center"
 
 website_route_rules = [{'from_route': '/getpos-react/<path:app_path>', 'to_route': 'getpos-react'},]

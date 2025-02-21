@@ -6,7 +6,7 @@ frappe.ui.form.on("Email Template", {
 	validate: function(frm){
         if (frm.doc.custom_default_coupon_code_notification == true ) {
 		frappe.call({
-			method: "getpos.getpos.hooks.pricing_rule.default_coupon_code_email_template",
+			method: "nbpos.nbpos.hooks.pricing_rule.default_coupon_code_email_template",
 			args: {
 				doc: cur_frm.doc.name,
 			},

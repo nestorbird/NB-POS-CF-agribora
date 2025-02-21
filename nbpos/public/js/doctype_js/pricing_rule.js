@@ -5,7 +5,7 @@ frappe.ui.form.on("Pricing Rule", {
 	custom_send_mail: function (frm) {
         if (frm.doc.customer && !frm.is_dirty() ){
             frappe.call({
-                method:  "getpos.getpos.hooks.pricing_rule.coupon_code_email",  
+                method:  "nbpos.nbpos.hooks.pricing_rule.coupon_code_email",  
                 args: {                         
                     pricing_rule : frm.doc.name,
                     customer : frm.doc.customer,
