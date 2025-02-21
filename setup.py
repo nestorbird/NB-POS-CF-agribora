@@ -7,9 +7,9 @@ with open("requirements.txt") as f:
 from getpos import __version__ as version
 
 setup(
-	name="getpos",
+	name="nbpos",
 	version=version,
-	description="getpos",
+	description="nbpos",
 	author="Nestorbird",
 	author_email="info@nestorbird.com",
 	packages=find_packages(),

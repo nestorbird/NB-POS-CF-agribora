@@ -1,9 +1,9 @@
 from . import __version__ as app_version
 
-app_name = "getpos"
-app_title = "GETPOS"
+app_name = "nbpos"
+app_title = "NBPOS"
 app_publisher = "Nestorbird"
-app_description = "GETPOS"
+app_description = "NBPOS"
 app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "info@nestorbird.com"
